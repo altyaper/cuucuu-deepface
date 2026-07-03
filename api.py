@@ -39,6 +39,7 @@ def _detect_from_bytes(image_bytes: bytes) -> DetectResponse:
 
 @app.post("/detect", response_model=DetectResponse)
 def detect_from_url(req: DetectRequest):
+    print("Request for framing a face")
     resp = requests.get(req.image_url, timeout=15)
     resp.raise_for_status()
     return _detect_from_bytes(resp.content)
