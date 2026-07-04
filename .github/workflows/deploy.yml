@@ -12,8 +12,8 @@ jobs:
         uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.DROPLET_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
+          username: ${{ secrets.DROPLET_USER }}
+          key: ${{ secrets.DROPLET_SSH_KEY }}
           script: |
             cd ~/cuucuu-deepface || git clone git@github.com:altyaper/cuucuu-deepface.git ~/cuucuu-deepface && cd ~/cuucuu-deepface
             git pull origin main
