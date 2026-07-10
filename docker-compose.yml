@@ -1,6 +1,7 @@
 services:
   deepface:
     build: .
+    container_name: cuucuu-deepface
     ports:
       - "8100:8100"
     restart: unless-stopped
