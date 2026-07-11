@@ -2,7 +2,7 @@ import io
 import tempfile
 
 import requests
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, HTTPException, UploadFile
 from pydantic import BaseModel
 
 from detect_faces import detect_faces
@@ -40,8 +40,14 @@ def _detect_from_bytes(image_bytes: bytes) -> DetectResponse:
 @app.post("/detect", response_model=DetectResponse)
 def detect_from_url(req: DetectRequest):
     print("Request for framing a face")
-    resp = requests.get(req.image_url, timeout=15)
-    resp.raise_for_status()
+    try:
+        resp = requests.get(req.image_url, timeout=15)
+        resp.raise_for_status()
+    except requests.RequestException as exc:
+        raise HTTPException(
+            status_code=422,
+            detail=f"Could not fetch image from URL: {exc}",
+        )
     return _detect_from_bytes(resp.content)
 
 
