@@ -17,7 +17,7 @@ jobs:
           script: |
             cd ~/cuucuu-deepface || git clone git@github.com:altyaper/cuucuu-deepface.git ~/cuucuu-deepface && cd ~/cuucuu-deepface
             git pull origin main
-            docker build -t cuucuu-deepface .
+            # Remove any legacy container from the old `docker run` deploy so it doesn't conflict on port 8100
             docker stop cuucuu-deepface || true
             docker rm cuucuu-deepface || true
-            docker run -d --name cuucuu-deepface --restart unless-stopped -p 8100:8100 cuucuu-deepface
+            docker compose up -d --build
